@@ -7,8 +7,7 @@
 #include <Adafruit_GPS.h>
 #include <Adafruit_NeoPixel.h>
 
-#define OLED_RESET_PIN      4       // Pin used for OLED reset signal
-#define OLED_I2C_ADDRESS    0x3C    // 0x3C (for the 128x32)
+#define OLED_RESET_PIN      -1      // Pin used for OLED reset signal, -1 is unused
 #define DHT_PIN             2       // Pin which is connected to the DHT sensor.
 #define GPSSerial           Serial1 // what's the name of the hardware serial port?
 #define PIXEL_PIN           6       // Digital IO pin connected to the NeoPixels.
@@ -41,7 +40,7 @@ DHT_Unified dht(DHT_PIN, DHT_TYPE);
 void setup()
 {
     // by default, we'll generate the high voltage from the 3.3v line internally! (neat!)
-    display.begin(SSD1306_SWITCHCAPVCC, OLED_I2C_ADDRESS);  // initialize with the I2C addr
+    display.begin();  // initialize with the I2C addr
     dht.begin();
 
     // 9600 NMEA is the default baud rate for Adafruit MTK GPS's- some use 4800
