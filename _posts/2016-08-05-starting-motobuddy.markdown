@@ -2,6 +2,7 @@
 layout: post
 title:  "Starting Motobuddy"
 date:   2016-08-05 18:40:21 -0700
+author: Blake Ramsdell
 ---
 It was hot the other day. I went to ride my bike and I didn't know what the temperture was. I think I have a speaker jammed into the hole where the air temp is on other bikes.
 
