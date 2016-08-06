@@ -18,8 +18,8 @@ title: Motobuddy
 description: > # this means to ignore newlines until "baseurl:"
   Motobuddy is a companion environmental information device well suited for
   motorcycles, snowmobiles and ATVs. You know, a handlebar-mounted computer.
-baseurl: "" # the subpath of your site, e.g. /blog
-url: "http://example.com" # the base hostname & protocol for your site
+baseurl: "/Motobuddy" # the subpath of your site, e.g. /blog
+url: "http://bcr.github.io" # the base hostname & protocol for your site
 twitter_username: blake182
 github_username:  bcr
 
