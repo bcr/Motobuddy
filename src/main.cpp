@@ -55,7 +55,7 @@ void setup()
     GPS.sendCommand(PMTK_SET_NMEA_UPDATE_1HZ); // 1 Hz update rate
     // For the parsing code to work nicely and have time to sort thru the data, and
     // print it out we don't suggest using anything higher than 1 Hz
-     
+
     // Request updates on antenna status, comment out to keep quiet
     GPS.sendCommand(PGCMD_ANTENNA);
 
@@ -65,5 +65,17 @@ void setup()
 
 void loop()
 {
-    
+    // GPS updating. I can't imagine this would run forever, but let it run
+    while (GPS.read() != 0);
+
+    if (GPS.newNMEAreceived())
+    {
+        if (GPS.parse(GPS.lastNMEA()))
+        {
+            // We have new GPS data, if you want to optimize screen update
+        }
+    }
+
+    // For temperature and humidity from the DHT, that's on a polled basis,
+    // so maybe cool your jets and don't poll every time through the loop
 }
