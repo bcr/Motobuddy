@@ -4,12 +4,13 @@ title: About
 permalink: /about/
 ---
 
-This is the base Jekyll theme. You can find out more info about customizing your Jekyll theme, as well as basic Jekyll usage documentation at [jekyllrb.com](http://jekyllrb.com/)
+I want to know the current temperature and correct time while riding my Harley.
 
-You can find the source code for the Jekyll new theme at:
-{% include icon-github.html username="jekyll" %} /
-[minima](https://github.com/jekyll/minima)
+So I am developing Motobuddy.
 
-You can find the source code for Jekyll at
-{% include icon-github.html username="jekyll" %} /
-[jekyll](https://github.com/jekyll/jekyll)
+Yes, I know, I'm not supposed to care about these things. But here we are.
+
+It is likely it will have more information than that. Altitude, humidity.
+
+{% include icon-github.html username="bcr" %} /
+[Motobuddy](https://github.com/bcr/Motobuddy)
