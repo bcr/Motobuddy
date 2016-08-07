@@ -13,6 +13,8 @@
 #define PIXEL_PIN           6       // Digital IO pin connected to the NeoPixels.
 #define PIXEL_COUNT         16      // Number of NeoPixels connected
 
+#define GMT_OFFSET_HOURS    (-7)    // Current timezone relative to GMT
+
 // http://platformio.org/lib/show/28/Adafruit-NeoPixel
 // Parameter 1 = number of pixels in strip,  neopixel stick has 8
 // Parameter 2 = pin number (most are valid)
@@ -21,7 +23,7 @@
 //   NEO_GRB     Pixels are wired for GRB bitstream, correct for neopixel stick
 //   NEO_KHZ400  400 KHz bitstream (e.g. FLORA pixels)
 //   NEO_KHZ800  800 KHz bitstream (e.g. High Density LED strip), correct for neopixel stick
-Adafruit_NeoPixel strip = Adafruit_NeoPixel(PIXEL_COUNT, PIXEL_PIN, NEO_GRB + NEO_KHZ800);
+//Adafruit_NeoPixel strip = Adafruit_NeoPixel(PIXEL_COUNT, PIXEL_PIN, NEO_GRB + NEO_KHZ800);
 
 // Connect to the GPS on the hardware port
 Adafruit_GPS GPS(&GPSSerial);
@@ -34,14 +36,17 @@ Adafruit_SSD1306 display(OLED_RESET_PIN);
 #endif
 
 // http://platformio.org/lib/show/18/Adafruit-DHT-Unified
-#define DHT_TYPE          DHT22     // DHT 22 (AM2302)
-DHT_Unified dht(DHT_PIN, DHT_TYPE);
+//#define DHT_TYPE          DHT22     // DHT 22 (AM2302)
+//DHT_Unified dht(DHT_PIN, DHT_TYPE);
 
 void setup()
 {
     // by default, we'll generate the high voltage from the 3.3v line internally! (neat!)
     display.begin();  // initialize with the I2C addr
-    dht.begin();
+    display.display();
+    display.setTextSize(2);
+    display.setTextColor(WHITE);
+//    dht.begin();
 
     // 9600 NMEA is the default baud rate for Adafruit MTK GPS's- some use 4800
     GPS.begin(9600);
@@ -59,8 +64,10 @@ void setup()
     // Request updates on antenna status, comment out to keep quiet
     GPS.sendCommand(PGCMD_ANTENNA);
 
-    strip.begin();
-    strip.show(); // Initialize all pixels to 'off'
+//    strip.begin();
+//    strip.show(); // Initialize all pixels to 'off'
+
+    display.clearDisplay();
 }
 
 void loop()
@@ -72,10 +79,38 @@ void loop()
     {
         if (GPS.parse(GPS.lastNMEA()))
         {
-            // We have new GPS data, if you want to optimize screen update
+            // Output the time now that we have new data
+            int finalHour = GPS.hour + GMT_OFFSET_HOURS;
+            if (finalHour < 0)
+            {
+                finalHour += 24;
+            }
+            else if (finalHour > 24)
+            {
+                finalHour -= 24;
+            }
+
+            display.clearDisplay();
+            display.setCursor(0,0);
+            display.print(finalHour);
+            display.print(":");
+            if (GPS.minute < 10)
+            {
+                display.print("0");
+            }
+            display.print(GPS.minute);
+            display.print(":");
+            if (GPS.seconds < 10)
+            {
+                display.print("0");
+            }
+            display.print(GPS.seconds);
+            display.println();
         }
     }
 
     // For temperature and humidity from the DHT, that's on a polled basis,
     // so maybe cool your jets and don't poll every time through the loop
+
+    display.display();
 }
