@@ -94,6 +94,8 @@ void loop()
 
             if ((GPS.seconds % 10) < 5)
             {
+                const char* separatorChar = (GPS.seconds % 2) ? " " : ":";
+
                 // Output the time now that we have new data
                 int finalHour = GPS.hour + GMT_OFFSET_HOURS;
                 if (finalHour < 0)
@@ -105,8 +107,11 @@ void loop()
                     finalHour -= 24;
                 }
 
+                // Convert to 12 hour format
+                finalHour = (finalHour + 12) % 12;
+
                 display.print(finalHour);
-                display.print(":");
+                display.print(separatorChar);
                 if (GPS.minute < 10)
                 {
                     display.print("0");
