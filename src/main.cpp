@@ -22,6 +22,8 @@
 #define CENTIMETERS_TO_FEET(CM) ((CM / CENTIMETERS_IN_INCH) / INCHES_IN_FOOT)
 #define METERS_TO_FEET(M)       (M * FEET_IN_METER)
 #define CELSIUS_TO_FAHRENHEIT(C)    (C * 9 / 5 + 32)
+#define TRUNC(N)                    ((int) (N))
+#define ROUND(N)                    TRUNC((N) + .5)
 
 // http://platformio.org/lib/show/28/Adafruit-NeoPixel
 // Parameter 1 = number of pixels in strip,  neopixel stick has 8
@@ -52,7 +54,7 @@ void setup()
     // by default, we'll generate the high voltage from the 3.3v line internally! (neat!)
     display.begin();  // initialize with the I2C addr
     display.display();
-    display.setTextSize(2);
+    display.setTextSize(4);
     display.setTextColor(WHITE);
     dht.begin();
 
@@ -87,50 +89,47 @@ void loop()
     {
         if (GPS.parse(GPS.lastNMEA()))
         {
-            // Output the time now that we have new data
-            int finalHour = GPS.hour + GMT_OFFSET_HOURS;
-            if (finalHour < 0)
-            {
-                finalHour += 24;
-            }
-            else if (finalHour > 24)
-            {
-                finalHour -= 24;
-            }
-
             display.clearDisplay();
             display.setCursor(0,0);
-            display.print(finalHour);
-            display.print(":");
-            if (GPS.minute < 10)
-            {
-                display.print("0");
-            }
-            display.print(GPS.minute);
-            display.print(":");
-            if (GPS.seconds < 10)
-            {
-                display.print("0");
-            }
-            display.print(GPS.seconds);
-            display.println();
 
-            sensors_event_t event;
-            dht.temperature().getEvent(&event);
-            if (isnan(event.temperature))
+            if ((GPS.seconds % 10) < 5)
             {
-                display.println("Temp broken");
+                // Output the time now that we have new data
+                int finalHour = GPS.hour + GMT_OFFSET_HOURS;
+                if (finalHour < 0)
+                {
+                    finalHour += 24;
+                }
+                else if (finalHour > 24)
+                {
+                    finalHour -= 24;
+                }
+
+                display.print(finalHour);
+                display.print(":");
+                if (GPS.minute < 10)
+                {
+                    display.print("0");
+                }
+                display.print(GPS.minute);
+                display.println();
             }
             else
             {
-                display.print(CELSIUS_TO_FAHRENHEIT(event.temperature));
-                display.println("F");
+                sensors_event_t event;
+                dht.temperature().getEvent(&event);
+                if (isnan(event.temperature))
+                {
+                    display.println("Temp broken");
+                }
+                else
+                {
+                    display.print(ROUND(CELSIUS_TO_FAHRENHEIT(event.temperature)));
+                    display.println("F");
+                }
             }
+
+            display.display();
         }
     }
-
-    // For temperature and humidity from the DHT, that's on a polled basis,
-    // so maybe cool your jets and don't poll every time through the loop
-
-    display.display();
 }
