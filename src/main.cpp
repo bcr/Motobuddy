@@ -8,7 +8,7 @@
 #include <Adafruit_NeoPixel.h>
 
 #define OLED_RESET_PIN      -1      // Pin used for OLED reset signal, -1 is unused
-#define DHT_PIN             2       // Pin which is connected to the DHT sensor.
+#define DHT_PIN             5       // Pin which is connected to the DHT sensor.
 #define GPSSerial           Serial1 // what's the name of the hardware serial port?
 #define PIXEL_PIN           6       // Digital IO pin connected to the NeoPixels.
 #define PIXEL_COUNT         16      // Number of NeoPixels connected
@@ -43,8 +43,8 @@ Adafruit_SSD1306 display(OLED_RESET_PIN);
 #endif
 
 // http://platformio.org/lib/show/18/Adafruit-DHT-Unified
-//#define DHT_TYPE          DHT22     // DHT 22 (AM2302)
-//DHT_Unified dht(DHT_PIN, DHT_TYPE);
+#define DHT_TYPE          DHT22     // DHT 22 (AM2302)
+DHT_Unified dht(DHT_PIN, DHT_TYPE);
 
 void setup()
 {
@@ -53,7 +53,7 @@ void setup()
     display.display();
     display.setTextSize(2);
     display.setTextColor(WHITE);
-//    dht.begin();
+    dht.begin();
 
     // 9600 NMEA is the default baud rate for Adafruit MTK GPS's- some use 4800
     GPS.begin(9600);
@@ -114,15 +114,16 @@ void loop()
             display.print(GPS.seconds);
             display.println();
 
-            if ((GPS.seconds % 10) < 5)
+            sensors_event_t event;
+            dht.temperature().getEvent(&event);
+            if (isnan(event.temperature))
             {
-                display.print(KNOTS_TO_MPH(GPS.speed));
-                display.println("MPH");
+                display.println("Temp broken");
             }
             else
             {
-                display.print(METERS_TO_FEET(GPS.altitude));
-                display.println("FT");
+                display.print(event.temperature);
+                display.println("C");
             }
         }
     }
