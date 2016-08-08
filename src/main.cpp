@@ -15,13 +15,13 @@
 
 #define GMT_OFFSET_HOURS    (-7)    // Current timezone relative to GMT
 
-#define KNOTS_TO_MPH(KTS)           (KTS * 1.151)
+#define KNOTS_TO_MPH(KTS)           ((KTS) * 1.151)
 #define CENTIMETERS_IN_INCH         (2.54)
 #define INCHES_IN_FOOT              (12)
 #define FEET_IN_METER               (3.28)
-#define CENTIMETERS_TO_FEET(CM)     ((CM / CENTIMETERS_IN_INCH) / INCHES_IN_FOOT)
-#define METERS_TO_FEET(M)           (M * FEET_IN_METER)
-#define CELSIUS_TO_FAHRENHEIT(C)    (C * 9 / 5 + 32)
+#define CENTIMETERS_TO_FEET(CM)     (((CM) / CENTIMETERS_IN_INCH) / INCHES_IN_FOOT)
+#define METERS_TO_FEET(M)           ((M) * FEET_IN_METER)
+#define CELSIUS_TO_FAHRENHEIT(C)    ((C) * 9 / 5 + 32)
 #define TRUNC(N)                    ((int) (N))
 #define ROUND(N)                    TRUNC((N) + .5)
 
