@@ -1,6 +1,7 @@
 #include <Wire.h>
 #include <Adafruit_GFX.h>
 #include <Adafruit_SSD1306.h>
+#include <Fonts/FreeMonoBold24pt7b.h>   // See https://github.com/adafruit/Adafruit-GFX-Library
 #include <Adafruit_Sensor.h>
 #include <DHT.h>
 #include <DHT_U.h>
@@ -24,6 +25,13 @@
 #define CELSIUS_TO_FAHRENHEIT(C)    ((C) * 9 / 5 + 32)
 #define TRUNC(N)                    ((int) (N))
 #define ROUND(N)                    TRUNC((N) + .5)
+
+// TEXT_Y_ORIGIN is a lot of fun. If you use the standard font, the origin when
+// drawing is the upper left. If you use a custom font, the origin when drawing
+// is the baseline. If you change the font, you may need to muck with this
+// number until it looks right. You might want to compute this automatically,
+// but that will depend on the characters you want to display.
+#define TEXT_Y_ORIGIN   (30)
 
 // http://platformio.org/lib/show/28/Adafruit-NeoPixel
 // Parameter 1 = number of pixels in strip,  neopixel stick has 8
@@ -54,7 +62,8 @@ void setup()
     // by default, we'll generate the high voltage from the 3.3v line internally! (neat!)
     display.begin();  // initialize with the I2C addr
     display.display();
-    display.setTextSize(4);
+    display.setFont(&FreeMonoBold24pt7b);
+    display.setTextSize(1);
     display.setTextColor(WHITE);
     dht.begin();
 
@@ -90,7 +99,7 @@ void loop()
         if (GPS.parse(GPS.lastNMEA()))
         {
             display.clearDisplay();
-            display.setCursor(0,0);
+            display.setCursor(0, TEXT_Y_ORIGIN);
 
             if ((GPS.seconds % 10) < 5)
             {
