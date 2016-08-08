@@ -21,6 +21,7 @@
 #define FEET_IN_METER           (3.28)
 #define CENTIMETERS_TO_FEET(CM) ((CM / CENTIMETERS_IN_INCH) / INCHES_IN_FOOT)
 #define METERS_TO_FEET(M)       (M * FEET_IN_METER)
+#define CELSIUS_TO_FAHRENHEIT(C)    (C * 9 / 5 + 32)
 
 // http://platformio.org/lib/show/28/Adafruit-NeoPixel
 // Parameter 1 = number of pixels in strip,  neopixel stick has 8
@@ -122,8 +123,8 @@ void loop()
             }
             else
             {
-                display.print(event.temperature);
-                display.println("C");
+                display.print(CELSIUS_TO_FAHRENHEIT(event.temperature));
+                display.println("F");
             }
         }
     }
