@@ -1,7 +1,7 @@
 #include <Wire.h>
 #include <Adafruit_GFX.h>
 #include <Adafruit_SSD1306.h>
-#include <Fonts/FreeMonoBold24pt7b.h>   // See https://github.com/adafruit/Adafruit-GFX-Library
+#include <VerdanaBold21pt7b.h>  // See https://github.com/adafruit/Adafruit-GFX-Library
 #include <Adafruit_Sensor.h>
 #include <DHT.h>
 #include <DHT_U.h>
@@ -31,7 +31,7 @@
 // is the baseline. If you change the font, you may need to muck with this
 // number until it looks right. You might want to compute this automatically,
 // but that will depend on the characters you want to display.
-#define TEXT_Y_ORIGIN   (30)
+#define TEXT_Y_ORIGIN   (31)
 
 // http://platformio.org/lib/show/28/Adafruit-NeoPixel
 // Parameter 1 = number of pixels in strip,  neopixel stick has 8
@@ -62,7 +62,7 @@ void setup()
     // by default, we'll generate the high voltage from the 3.3v line internally! (neat!)
     display.begin();  // initialize with the I2C addr
     display.display();
-    display.setFont(&FreeMonoBold24pt7b);
+    display.setFont(&Verdana_Bold21pt7b);
     display.setTextSize(1);
     display.setTextColor(WHITE);
     dht.begin();
