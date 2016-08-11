@@ -117,7 +117,11 @@ void loop()
                 }
 
                 // Convert to 12 hour format
-                finalHour = (finalHour + 12) % 12;
+                finalHour %= 12;
+                if (finalHour == 0)
+                {
+                    finalHour = 12;
+                }
 
                 display.print(finalHour);
                 display.print(separatorChar);
