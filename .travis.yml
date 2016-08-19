@@ -34,7 +34,7 @@ cache:
         - "~/.platformio"
 
 install:
-    - pip install -U platformio
+    - pip install -U https://github.com/platformio/platformio/archive/develop.zip
 
 script:
     - platformio run
