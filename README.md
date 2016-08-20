@@ -1,3 +1,6 @@
+#Overview
+[![Build Status](https://travis-ci.org/bcr/Motobuddy.svg?branch=master)](https://travis-ci.org/bcr/Motobuddy)
+
 This is the firmware source code for Motobuddy. Currently this supports the R0 variant of the system which is based on various Adafruit Feather boards stuck together.
 
 * [Adafruit Feather M0 Bluefruit LE][adafruit-2995]
@@ -6,18 +9,15 @@ This is the firmware source code for Motobuddy. Currently this supports the R0 v
 * [DHT22 temperature-humidity sensor + extras][adafruit-385]
 * [FeatherWing Doubler - Prototyping Add-on For All Feather Boards][adafruit-2890]
 
-This is built using the [PlatformIO][platformio] system. When I set up the system initially I did the following:
+#PlatformIO
+In order to build and run I use the [PlatformIO][platformio] system. This provides library management, board management, really solves all of the problems you have with managing multiple board environments and multiple libraries.
 
-```
-platformio init --board adafruit_feather_m0_usb
-platformio lib install 18
-platformio lib install 135
-platformio lib install 19
-platformio lib install 20
-platformio lib install 28
-```
+There are some minor compatibility issues right now with the Adafruit libraries and the PlatformIO system, the PlatformIO maintainers are super responsive and I was able to get the system working with the [development branch][platformio-devel] of the system.
 
-To build and run I do `platformio run` to just build it, and `platformio run -t upload` to build it and upload it. I have not run into anything funny with the PlatformIO integration, and it works well with my preferred workflow which is using my own editor (TextMate) and command line via bash.
+To build and run I do `platformio run` to just build it, and `platformio run -t upload` to build it and upload it. PlatformIO works well with my preferred workflow which is using my own editor (TextMate) and command line via bash.
+
+#Travis CI
+I am using the Travis CI system to do build verification. This works well with PlatformIO also.
 
 [adafruit-2995]: https://www.adafruit.com/product/2995
 [adafruit-2900]: https://www.adafruit.com/products/2900
@@ -25,3 +25,4 @@ To build and run I do `platformio run` to just build it, and `platformio run -t 
 [adafruit-385]: https://www.adafruit.com/product/385
 [adafruit-2890]: https://www.adafruit.com/product/2890
 [platformio]: http://platformio.org/
+[platformio-devel]: http://docs.platformio.org/en/stable/installation.html#development-version
