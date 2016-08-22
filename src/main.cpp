@@ -13,6 +13,7 @@
 #define GPSSerial           Serial1 // what's the name of the hardware serial port?
 #define PIXEL_PIN           6       // Digital IO pin connected to the NeoPixels.
 #define PIXEL_COUNT         16      // Number of NeoPixels connected
+#define BATTERY_STATUS_PIN  A7      // Analog input for battery voltage / 2
 
 #define GMT_OFFSET_HOURS    (-7)    // Current timezone relative to GMT
 
@@ -134,17 +135,18 @@ void loop()
             }
             else
             {
-                sensors_event_t event;
-                dht.temperature().getEvent(&event);
-                if (isnan(event.temperature))
-                {
-                    display.println("Temp broken");
-                }
-                else
-                {
-                    display.print(ROUND(CELSIUS_TO_FAHRENHEIT(event.temperature)));
-                    display.println("F");
-                }
+                display.println(analogRead(BATTERY_STATUS_PIN) * 2 * 3.3 / 1024);
+                // sensors_event_t event;
+                // dht.temperature().getEvent(&event);
+                // if (isnan(event.temperature))
+                // {
+                //     display.println("Temp broken");
+                // }
+                // else
+                // {
+                //     display.print(ROUND(CELSIUS_TO_FAHRENHEIT(event.temperature)));
+                //     display.println("F");
+                // }
             }
 
             display.display();
