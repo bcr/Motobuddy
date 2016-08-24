@@ -94,6 +94,9 @@ void setup()
 //    strip.begin();
 //    strip.show(); // Initialize all pixels to 'off'
 
+    ble.begin(false);
+    ble.sendCommandCheckOK(F("AT+GAPDEVNAME=Motobuddy"));
+
     display.clearDisplay();
 }
 
