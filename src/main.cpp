@@ -7,6 +7,7 @@
 #include <DHT_U.h>
 #include <Adafruit_GPS.h>
 #include <Adafruit_NeoPixel.h>
+#include <Adafruit_BluefruitLE_SPI.h>
 
 #define OLED_RESET_PIN      -1      // Pin used for OLED reset signal, -1 is unused
 #define DHT_PIN             5       // Pin which is connected to the DHT sensor.
@@ -14,6 +15,9 @@
 #define PIXEL_PIN           6       // Digital IO pin connected to the NeoPixels.
 #define PIXEL_COUNT         16      // Number of NeoPixels connected
 #define BATTERY_STATUS_PIN  A7      // Analog input for battery voltage / 2
+#define BLUEFRUIT_SPI_CS    8
+#define BLUEFRUIT_SPI_IRQ   7
+#define BLUEFRUIT_SPI_RST   4       // Optional but recommended, set to -1 if unused
 
 #define GMT_OFFSET_HOURS    (-7)    // Current timezone relative to GMT
 
@@ -57,6 +61,9 @@ Adafruit_SSD1306 display(OLED_RESET_PIN);
 // http://platformio.org/lib/show/18/Adafruit-DHT-Unified
 #define DHT_TYPE          DHT22     // DHT 22 (AM2302)
 DHT_Unified dht(DHT_PIN, DHT_TYPE);
+
+/* ...hardware SPI, using SCK/MOSI/MISO hardware SPI pins and then user selected CS/IRQ/RST */
+Adafruit_BluefruitLE_SPI ble(BLUEFRUIT_SPI_CS, BLUEFRUIT_SPI_IRQ, BLUEFRUIT_SPI_RST);
 
 void setup()
 {
