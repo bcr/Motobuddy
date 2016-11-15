@@ -8,6 +8,7 @@
 #include <Adafruit_GPS.h>
 #include <Adafruit_NeoPixel.h>
 #include <Adafruit_BluefruitLE_SPI.h>
+#include <Timezone.h>
 
 #define OLED_RESET_PIN      -1      // Pin used for OLED reset signal, -1 is unused
 #define DHT_PIN             5       // Pin which is connected to the DHT sensor.
@@ -64,6 +65,11 @@ DHT_Unified dht(DHT_PIN, DHT_TYPE);
 
 /* ...hardware SPI, using SCK/MOSI/MISO hardware SPI pins and then user selected CS/IRQ/RST */
 Adafruit_BluefruitLE_SPI ble(BLUEFRUIT_SPI_CS, BLUEFRUIT_SPI_IRQ, BLUEFRUIT_SPI_RST);
+
+//US Pacific Time Zone (Las Vegas, Los Angeles)
+TimeChangeRule usPDT = {"PDT", Second, Sun, Mar, 2, -420};
+TimeChangeRule usPST = {"PST", First, Sun, Nov, 2, -480};
+Timezone usPT(usPDT, usPST);
 
 void setup()
 {
