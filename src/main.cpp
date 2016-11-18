@@ -20,8 +20,6 @@
 #define BLUEFRUIT_SPI_IRQ   7
 #define BLUEFRUIT_SPI_RST   4       // Optional but recommended, set to -1 if unused
 
-#define GMT_OFFSET_HOURS    (-7)    // Current timezone relative to GMT
-
 #define KNOTS_TO_MPH(KTS)           ((KTS) * 1.151)
 #define CENTIMETERS_IN_INCH         (2.54)
 #define INCHES_IN_FOOT              (12)
@@ -115,15 +113,19 @@ void loop()
     {
         if (GPS.parse(GPS.lastNMEA()))
         {
+            tmElements_t tm;
+            setTime(GPS.hour, GPS.minute, GPS.seconds, GPS.day, GPS.month, GPS.year);
+            breakTime(usPT.toLocal(now()), tm);
+
             display.clearDisplay();
             display.setCursor(0, TEXT_Y_ORIGIN);
 
-            if ((GPS.seconds % 10) < 5)
+            if ((tm.Second % 10) < 5)
             {
-                const char* separatorChar = (GPS.seconds % 2) ? " " : ":";
+                const char* separatorChar = (tm.Second % 2) ? " " : ":";
 
                 // Output the time now that we have new data
-                int finalHour = GPS.hour + GMT_OFFSET_HOURS;
+                int finalHour = tm.Hour;
                 if (finalHour < 0)
                 {
                     finalHour += 24;
@@ -142,11 +144,11 @@ void loop()
 
                 display.print(finalHour);
                 display.print(separatorChar);
-                if (GPS.minute < 10)
+                if (tm.Minute < 10)
                 {
                     display.print("0");
                 }
-                display.print(GPS.minute);
+                display.print(tm.Minute);
                 display.println();
             }
             else
